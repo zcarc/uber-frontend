@@ -1,5 +1,5 @@
 import reset from "styled-reset";
-import { createGlobalStyle } from "./typed.components";
+import { createGlobalStyle } from "./typed-components";
 
 const GlobalStyle = createGlobalStyle`
     @import url('https://fonts.googleapis.com/css?family=Maven+Pro');
@@ -19,6 +19,9 @@ const GlobalStyle = createGlobalStyle`
         &:focus,
         &:active{outline:none}
     }
+    h1,h2,h3,h4,h5,h6{
+      font-family:'Maven Pro', sans-serif;
+  }
 `;
 
 export default GlobalStyle;
