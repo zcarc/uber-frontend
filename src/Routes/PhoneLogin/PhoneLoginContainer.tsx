@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ChangeEventHandler } from "react";
 import PhoneLoginPresenter from "./PhoneLoginPresenter";
 import { RouteComponentProps } from "react-router-dom";
 
@@ -7,10 +7,13 @@ interface IState {
   phoneNumber: string;
 }
 
-class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, IState> {
+class PhoneLoginContainer extends React.Component<
+  RouteComponentProps<any>,
+  IState
+> {
   public state = {
     countryCode: "+82",
-    phoneNumber: ""
+    phoneNumber: "",
   };
 
   public render() {
@@ -19,9 +22,28 @@ class PhoneLoginContainer extends React.Component<RouteComponentProps<any>, ISta
       <PhoneLoginPresenter
         countryCode={countryCode}
         phoneNumber={phoneNumber}
+        onInputChange={this.onInputChange}
+        onSubmit={this.onSubmit}
       />
     );
   }
+  public onInputChange: ChangeEventHandler<
+    HTMLInputElement | HTMLSelectElement
+  > = (event) => {
+    const {
+      target: { name, value },
+    } = event;
+
+    this.setState({
+      [name]: value,
+    } as any);
+  };
+
+  public onSubmit: React.FormEventHandler<HTMLFormElement> = (event) => {
+    event.preventDefault();
+    const { countryCode, phoneNumber } = this.state;
+    console.log(countryCode, phoneNumber);
+  };
 }
 
 export default PhoneLoginContainer;
