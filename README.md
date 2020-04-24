@@ -1,6 +1,6 @@
 # Nuber Client
 
-Client for the (N)Uber Clone Course on Nomad Academy. ReactJS, Apollo, Typescript
+Client for the Uber Clone. ReactJS, Apollo, Typescript
 
 ## Screens:
 
