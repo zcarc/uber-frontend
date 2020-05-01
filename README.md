@@ -6,18 +6,18 @@ Client for the Uber Clone. ReactJS, Apollo, Typescript
 
 ### Logged Out:
 
-    - [ ] Home
-    - [ ] Phone Login
-    - [ ] Verify Phone Number
-    - [ ] Social Login
+- [x] Home
+- [x] Phone Login
+- [x] Verify Phone Number
+- [x] Social Login
 
 ### Logged In:
 
-    - [ ] Home
-    - [ ] Ride
-    - [ ] Edit Account
-    - [ ] Settings
-    - [ ] Places
-    - [ ] Saved Places
-    - [ ] Add Place
-    - [ ] Find Address
+- [ ] Home
+- [ ] Ride
+- [ ] Edit Account
+- [ ] Settings
+- [ ] Places
+- [ ] Saved Places
+- [ ] Add Place
+- [ ] Find Address
