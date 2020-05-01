@@ -4,11 +4,12 @@ import { Mutation, MutationFn } from "react-apollo";
 import { facebookConnect, facebookConnectVariables } from "src/types/api";
 import { FACEBOOK_CONNECT } from "./SocialLoginQueries";
 import { RouteComponentProps } from "react-router-dom";
+import { toast } from "react-toastify";
 
 class LoginMutation extends Mutation<facebookConnect, facebookConnectVariables> {}
 
 interface IState {
-  firstname: string;
+  firstName: string;
   lastName: string;
   email?: string;
   fbId: string;
@@ -17,29 +18,47 @@ interface IState {
 interface IProps extends RouteComponentProps<any> {}
 
 class SocialLoginContainer extends React.Component<IProps, IState> {
-  public mutation: MutationFn;
+
+  public state = {
+    email: "",
+    fbId: "",
+    firstName: "",
+    lastName: "",
+  };
+
+  public facebookMutation:
+    | MutationFn<facebookConnect, facebookConnectVariables>
+    | any;
+
   public render() {
-    const { firstname, lastName, email, fbId } = this.state;
     return (
       <LoginMutation
         mutation={FACEBOOK_CONNECT}
-        variables={{ email, fbId, firstname, lastName }}
       >
-        {(facebookConnect, { loading }) => {
-          this.mutation = facebookConnect;
-          return <SocialLoginPresenter loginCallback={this.callback} />;
+        {(facebookMutation, { loading }) => {
+          this.facebookMutation = facebookMutation;
+          return <SocialLoginPresenter loginCallback={this.loginCallback} />;
         }}
       </LoginMutation>
     );
   }
 
-  public callback = (fbData) => {
-    this.setState({
-      email: fbData.email,
-    });
-    this.mutation();
+  public loginCallback = (response) => {
+    const {name, first_name, last_name, email, id, accessToken} = response;
+    if(accessToken) {
+      toast.success(`Welcome ${name}!`);
+      this.facebookMutation({
+        variables: {
+          firstName: first_name,
+          lastName: last_name,
+          email,
+          fbId: id,
+        },
+      });
+    } else {
+      toast.error('Could not log you in 😔');
+    }
   };
-
 }
 
 export default SocialLoginContainer;

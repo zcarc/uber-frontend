@@ -42,7 +42,7 @@ export interface facebookConnect {
 }
 
 export interface facebookConnectVariables {
-  firstname: string;
+  firstName: string;
   lastName: string;
   email?: string | null;
   fbId: string;
