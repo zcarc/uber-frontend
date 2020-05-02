@@ -1,9 +1,10 @@
 import React from "react";
 import { RouteComponentProps } from "react-router-dom";
 import EditAccountPresenter from "./EditAccountPresenter";
-import { updateProfileVariables, updateProfile } from "src/types/api";
-import { Mutation } from "react-apollo";
+import { updateProfileVariables, updateProfile, userProfile } from "src/types/api";
+import { Mutation, Query } from "react-apollo";
 import { UPDATE_PROFILE } from "./EditAccountQueries";
+import { USER_PROFILE } from "src/sharedQueries";
 
 interface IState {
   firstName: string;
@@ -19,6 +20,8 @@ class UpdateProfileMutation extends Mutation<
   updateProfileVariables
 > {}
 
+class ProfileQuery extends Query<userProfile> {}
+
 
 class EditAccountContainer extends React.Component<IProps, IState> {
   public state = {
@@ -30,27 +33,34 @@ class EditAccountContainer extends React.Component<IProps, IState> {
   public render() {
     const { email, firstName, lastName, profilePhoto } = this.state;
     return (
-      <UpdateProfileMutation
-        mutation={UPDATE_PROFILE}
-        variables={{
-          firstName,
-          lastName,
-          email,
-          profilePhoto,
-        }}
+      <ProfileQuery
+        query={USER_PROFILE}
+        onCompleted={this.updateFields}
       >
-        {(updateProfileFn, { loading }) => (
-          <EditAccountPresenter
-            email={email}
-            firstName={firstName}
-            lastName={lastName}
-            profilePhoto={profilePhoto}
-            onInputChange={this.onInputChange}
-            loading={loading}
-            onSubmit={updateProfileFn}
-          />
+        {() => (
+          <UpdateProfileMutation
+            mutation={UPDATE_PROFILE}
+            variables={{
+              firstName,
+              lastName,
+              email,
+              profilePhoto,
+            }}
+          >
+            {(updateProfileFn, { loading }) => (
+              <EditAccountPresenter
+                email={email}
+                firstName={firstName}
+                lastName={lastName}
+                profilePhoto={profilePhoto}
+                onInputChange={this.onInputChange}
+                loading={loading}
+                onSubmit={updateProfileFn}
+              />
+            )}
+          </UpdateProfileMutation>
         )}
-      </UpdateProfileMutation>
+      </ProfileQuery>
     );
   }
   public onInputChange: React.ChangeEventHandler<HTMLInputElement> = (
@@ -63,6 +73,25 @@ class EditAccountContainer extends React.Component<IProps, IState> {
     this.setState({
       [name]: value,
     } as any);
+  };
+
+  public updateFields = (data: userProfile) => {
+
+    if ("GetMyProfile" in data) {
+      const {
+        GetMyProfile: { user },
+      } = data;
+
+      if (user !== null) {
+        const { firstName, lastName, email, profilePhoto } = user;
+        this.setState({
+          email,
+          firstName,
+          lastName,
+          profilePhoto,
+        } as any);
+      }
+    }
   };
 }
 
