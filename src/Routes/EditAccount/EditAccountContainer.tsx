@@ -90,11 +90,11 @@ class EditAccountContainer extends React.Component<IProps, IState> {
       this.setState({ uploading: true });
       const formData = new FormData();
       formData.append("file", files[0]);
-      formData.append("api_key", "811881451928618");
-      formData.append("upload_preset", "tqecb16q");
+      formData.append("api_key", "214385717958729");
+      formData.append("upload_preset", "nsswip3m");
       formData.append("timestamp", String(Date.now() / 1000));
       const request = await axios.post(
-        "https://api.cloudinary.com/v1_1/djjpx4ror/image/upload",
+        "https://api.cloudinary.com/v1_1/dykznyvnh/image/upload",
         formData
       );
       console.log(request);
