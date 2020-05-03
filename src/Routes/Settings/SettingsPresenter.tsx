@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import Header from "../../Components/Header";
 import Place from "../../Components/Place";
 import styled from "../../typed-components";
-import { userProfile, getPlaces } from "../../types/api";
+import { getPlaces, userProfile } from "../../types/api";
 
 const Container = styled.div`
   padding: 0px 40px;
@@ -83,6 +83,7 @@ const SettingsPresenter: React.SFC<IProps> = ({
         places.map((place) => (
           <Place
             key={place!.id}
+            id={place!.id}
             fav={place!.isFav}
             name={place!.name}
             address={place!.address}
