@@ -6,6 +6,8 @@ import Form from "../../Components/Form";
 import Header from "../../Components/Header";
 import Input from "../../Components/Input";
 import styled from "../../typed-components";
+import { MutationFn } from "react-apollo";
+import { addPlace, addPlaceVariables } from "src/types/api";
 
 const Container = styled.div`
   padding: 0 40px;
@@ -26,6 +28,7 @@ interface IProps {
   name: string;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   loading: boolean;
+  onSubmit: MutationFn<addPlace, addPlaceVariables>;
 }
 
 const AddPlacePresenter: React.SFC<IProps> = ({
@@ -33,6 +36,7 @@ const AddPlacePresenter: React.SFC<IProps> = ({
   address,
   name,
   loading,
+  onSubmit,
 }) => (
   <React.Fragment>
     <Helmet>
@@ -40,18 +44,20 @@ const AddPlacePresenter: React.SFC<IProps> = ({
     </Helmet>
     <Header title={"Add Place"} backTo={"/"} />
     <Container>
-      <Form submitFn={null}>
+      <Form submitFn={onSubmit}>
         <ExtendedInput
           placeholder={"Name"}
           type={"text"}
           onChange={onInputChange}
           value={name}
+          name={"name"}
         />
         <ExtendedInput
           placeholder={"Address"}
           type={"text"}
           onChange={onInputChange}
           value={address}
+          name={"address"}
         />
         <ExtendedLink to={"/find-address"}>Pick place from map</ExtendedLink>
         <Button onClick={null} value={loading ? "Adding place" : "Add Place"} />
