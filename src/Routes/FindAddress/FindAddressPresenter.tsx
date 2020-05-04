@@ -54,6 +54,7 @@ class FindAddressPresenter extends React.Component<IProps> {
       onInputBlur,
       onPickPlace,
     } = this.props;
+    console.log("FindAddressPresenter");
     return (
       <div>
         <Helmet>
