@@ -6,6 +6,7 @@ import { Mutation } from "react-apollo";
 import { ADD_PLACE } from "./AddPlaceQuery";
 import { toast } from "react-toastify";
 import { GET_PLACES } from "src/sharedQueries";
+import { Location } from "history";
 
 interface IState {
   address: string;
@@ -14,7 +15,19 @@ interface IState {
   lng: number;
 }
 
-interface IProps extends RouteComponentProps<any> {}
+interface MyState {
+  lat?: number;
+  lng?: number;
+  address?: string;
+}
+
+interface LProps extends Location<MyState> {
+  state: MyState;
+}
+
+interface IProps extends RouteComponentProps<any> {
+  location: LProps;
+}
 
 class AddPlaceQuery extends Mutation<addPlace, addPlaceVariables> {}
 
@@ -25,6 +38,24 @@ class AddPlaceContainer extends React.Component<IProps, IState> {
     lat: 0,
     lng: 0,
   };
+
+  constructor(props: IProps) {
+    super(props);
+
+    const {
+      location: {
+        state: { address = "", lat = 0, lng = 0 } = {},
+      },
+    } = props;
+
+    this.state = {
+      address: address || "",
+      name: "",
+      lat: lat || 0,
+      lng: lng || 0,
+    };
+  }
+
   public render() {
     const { address, name, lat, lng } = this.state;
     const { history } = this.props;
