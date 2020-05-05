@@ -107,7 +107,6 @@ class FindAddressContainer extends React.Component<IProps, IState> {
   };
 
   public onInputBlur = async () => {
-    console.log("onInputBlur");
     const { address } = this.state;
     const result = await geoCode(address);
 
