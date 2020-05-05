@@ -27,6 +27,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   public map: google.maps.Map | any;
   public userMarker: google.maps.Marker | any;
   public toMarker: google.maps.Marker | any;
+  public directions: google.maps.DirectionsRenderer | any;
 
   public state = {
     isMenuOpen: false,
@@ -101,7 +102,6 @@ class HomeContainer extends React.Component<IProps, IState> {
       },
 
       disableDefaultUI: true,
-      minZoom: 8,
       zoom: 13,
     };
 
@@ -167,12 +167,6 @@ class HomeContainer extends React.Component<IProps, IState> {
     if (result !== false) {
       const { lat, lng, formatted_address: formatedAddress } = result;
 
-      this.setState({
-        toAddress: formatedAddress,
-        toLat: lat,
-        toLng: lng,
-      });
-
       if(this.toMarker) {
         this.toMarker.setMap(null);
       }
@@ -187,8 +181,35 @@ class HomeContainer extends React.Component<IProps, IState> {
       this.toMarker = new maps.Marker(toMarkerOptions);
       this.toMarker.setMap(this.map);
 
+      const bounds = new maps.LatLngBounds();
+      bounds.extend({ lat, lng });
+      bounds.extend({ lat: this.state.lat, lng: this.state.lng });
+      this.map.fitBounds(bounds);
+
+      this.setState({
+        toAddress: formatedAddress,
+        toLat: lat,
+        toLng: lng,
+      }, this.createPath);
+
     }
   };
+
+  public createPath = () => {
+    const { toLat, toLng, lat, lng } = this.state;
+
+    if(this.directions) {
+      this.directions.setMap(null);
+    }
+
+    const renderOptions: google.maps.DirectionsRendererOptions = {
+      polylineOptions: {
+        strokeColor: "#000",
+      },
+      suppressMarkers: true,
+    };
+    const directionService: google.maps.DirectionsService = new google.maps.DirectionsService();
+  }
 }
 
 export default HomeContainer;
