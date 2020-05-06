@@ -5,7 +5,8 @@ import Sidebar from "react-sidebar";
 import Menu from "src/Components/Menu";
 import Button from "src/Components/Button";
 import AddressBar from "src/Components/AddressBar";
-import { userProfile } from "src/types/api";
+import { userProfile, requestRide, requestRideVariables } from "src/types/api";
+import { MutationFn } from "react-apollo";
 
 const Container = styled.div``;
 
@@ -56,6 +57,7 @@ interface IProps {
   price?: string;
   data?: userProfile;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  requestRideFn?: MutationFn<requestRide, requestRideVariables>,
 }
 
 const HomePresenter: React.SFC<IProps> = ({
@@ -68,6 +70,7 @@ const HomePresenter: React.SFC<IProps> = ({
   onAddressSubmit,
   price,
   data: { GetMyProfile: { user = null } = {} } = {},
+  requestRideFn,
 }) => (
   <Container>
     <Helmet>
@@ -105,7 +108,7 @@ const HomePresenter: React.SFC<IProps> = ({
 
       {price && (
         <RequestButton
-          onClick={onAddressSubmit}
+          onClick={requestRideFn}
           disabled={toAddress === ""}
           value={`Request Ride ($${price})`}
         />
