@@ -63,23 +63,38 @@ class HomeContainer extends React.Component<IProps, IState> {
     const { isMenuOpen, toAddress, price } = this.state;
     return (
       <ProfileQuery query={USER_PROFILE}>
-        {({ data, loading }) => (
-          <NearbyQueries query={GET_NEARBY_DRIVERS}>
-            {() => (
-              <HomePresenter
-                loading={loading}
-                isMenuOpen={isMenuOpen}
-                toggleMenu={this.toggleMenu}
-                mapRef={this.mapRef}
-                toAddress={toAddress}
-                onInputChange={this.onInputChange}
-                price={price}
-                data={data}
-                onAddressSubmit={this.onAddressSubmit}
-              />
-            )}
-          </NearbyQueries>
-        )}
+        {({ data, loading }) => {
+          if (data && data.GetMyProfile) {
+            const { GetMyProfile: { user = null } = {} } = data;
+            if (user) {
+              return (
+                <NearbyQueries
+                  query={GET_NEARBY_DRIVERS}
+                  skip={user.isDriving}
+                  onCompleted={this.handleNearbyDrivers}
+                >
+                  {() => (
+                    <HomePresenter
+                      loading={loading}
+                      isMenuOpen={isMenuOpen}
+                      toggleMenu={this.toggleMenu}
+                      mapRef={this.mapRef}
+                      toAddress={toAddress}
+                      onInputChange={this.onInputChange}
+                      price={price}
+                      data={data}
+                      onAddressSubmit={this.onAddressSubmit}
+                    />
+                  )}
+                </NearbyQueries>
+              );
+            } else {
+              return null;
+            }
+          } else {
+            return "Loading";
+          }
+        }}
       </ProfileQuery>
     );
   }
@@ -277,12 +292,25 @@ class HomeContainer extends React.Component<IProps, IState> {
   public setPrice = () => {
     const { distance } = this.state;
     console.log(distance);
-    if(distance) {
+    if (distance) {
       this.setState({
         price: Number(parseFloat(distance.replace(",", "")) * 3).toFixed(2),
       });
     }
   };
+
+  public handleNearbyDrivers = (data: {} | getDrivers) => {
+    if ("GetNearbyDrivers" in data) {
+      const {
+        GetNearbyDrivers: { drivers, ok },
+      } = data;
+
+      if (ok && drivers) {
+        console.log(drivers);
+      }
+    }
+  };
+  
 }
 
 export default graphql<any, reportMovement, reportMovementVariables>(REPORT_LOCATION, {
