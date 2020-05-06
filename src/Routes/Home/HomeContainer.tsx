@@ -9,12 +9,18 @@ import {
   getDrivers,
   requestRide,
   requestRideVariables,
+  getRides,
 } from "src/types/api";
 import { Query, graphql, MutationFn, Mutation } from 'react-apollo';
 import { USER_PROFILE } from 'src/sharedQueries';
 import { geoCode, reverseGeoCode } from 'src/mapHelpers';
 import { toast } from 'react-toastify';
-import { REPORT_LOCATION, GET_NEARBY_DRIVERS, REQUEST_RIDE } from './HomeQueries';
+import {
+  REPORT_LOCATION,
+  GET_NEARBY_DRIVERS,
+  REQUEST_RIDE,
+  GET_NEARBY_RIDE,
+} from "./HomeQueries";
 
 interface IProps extends RouteComponentProps<any> {
   google: any;
@@ -32,11 +38,13 @@ interface IState {
   duration?: string;
   price?: number;
   fromAddress: string;
+  isDriving: boolean;
 }
 
 class ProfileQuery extends Query<userProfile> {}
 class NearbyQueries extends Query<getDrivers> {}
 class RequestRideMutation extends Mutation<requestRide, requestRideVariables> {}
+class GetNearbyRides extends Query<getRides> {}
 
 class HomeContainer extends React.Component<IProps, IState> {
   public mapRef: any;
@@ -47,6 +55,7 @@ class HomeContainer extends React.Component<IProps, IState> {
   public drivers: google.maps.Marker[] | any;
 
   public state = {
+    isDriving: true,
     fromAddress: "",
     isMenuOpen: false,
     lat: 0,
@@ -83,19 +92,21 @@ class HomeContainer extends React.Component<IProps, IState> {
       toLat,
       toLng,
       duration,
+      isDriving,
     } = this.state;
     return (
-      <ProfileQuery query={USER_PROFILE}>
+      <ProfileQuery query={USER_PROFILE} onCompleted={this.handleProfileQuery}>
         {({ data, loading }) => (
           <NearbyQueries
             query={GET_NEARBY_DRIVERS}
             pollInterval={1000}
-            skip={data?.GetMyProfile?.user?.isDriving || false}
+            skip={isDriving}
             onCompleted={this.handleNearbyDrivers}
           >
             {() => (
               <RequestRideMutation
                 mutation={REQUEST_RIDE}
+                onCompleted={this.handleRideRequest}
                 variables={{
                   distance,
                   pickUpAddress: fromAddress,
@@ -109,18 +120,23 @@ class HomeContainer extends React.Component<IProps, IState> {
                 }}
               >
                 {(requestRideFn) => (
-                  <HomePresenter
-                    loading={loading}
-                    isMenuOpen={isMenuOpen}
-                    toggleMenu={this.toggleMenu}
-                    mapRef={this.mapRef}
-                    toAddress={toAddress}
-                    onInputChange={this.onInputChange}
-                    price={price}
-                    data={data}
-                    onAddressSubmit={this.onAddressSubmit}
-                    requestRideFn={requestRideFn}
-                  />
+                  <GetNearbyRides query={GET_NEARBY_RIDE} skip={isDriving}>
+                    {({ data: nearbyRide }) => (
+                      <HomePresenter
+                        loading={loading}
+                        isMenuOpen={isMenuOpen}
+                        toggleMenu={this.toggleMenu}
+                        mapRef={this.mapRef}
+                        toAddress={toAddress}
+                        onInputChange={this.onInputChange}
+                        price={price}
+                        data={data}
+                        onAddressSubmit={this.onAddressSubmit}
+                        requestRideFn={requestRideFn}
+                        nearbyRide={nearbyRide}
+                      />
+                    )}
+                  </GetNearbyRides>
                 )}
               </RequestRideMutation>
             )}
@@ -389,6 +405,27 @@ class HomeContainer extends React.Component<IProps, IState> {
             }
           }
         }
+      }
+    }
+  };
+
+  public handleRideRequest = (data: requestRide) => {
+    const { RequestRide } = data;
+    if (RequestRide.ok) {
+      toast.success("Drive requested, fiding a driver");
+    } else {
+      toast.error(RequestRide.error);
+    }
+  };
+
+  public handleProfileQuery = (data: userProfile) => {
+    const { GetMyProfile } = data;
+    if (GetMyProfile.user) {
+      const {
+        user: { isDriving },
+      } = GetMyProfile;
+      if (isDriving) {
+        this.setState({ isDriving });
       }
     }
   };

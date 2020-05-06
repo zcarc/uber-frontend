@@ -5,7 +5,7 @@ import Sidebar from "react-sidebar";
 import Menu from "src/Components/Menu";
 import Button from "src/Components/Button";
 import AddressBar from "src/Components/AddressBar";
-import { userProfile, requestRide, requestRideVariables } from "src/types/api";
+import { userProfile, requestRide, requestRideVariables, getRides } from "src/types/api";
 import { MutationFn } from "react-apollo";
 
 const Container = styled.div``;
@@ -58,6 +58,7 @@ interface IProps {
   data?: userProfile;
   onInputChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   requestRideFn?: MutationFn<requestRide, requestRideVariables>,
+  nearbyRide?: getRides,
 }
 
 const HomePresenter: React.SFC<IProps> = ({
