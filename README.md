@@ -1,4 +1,4 @@
-# Nuber Client
+# Uber Client
 
 Client for the Uber Clone. ReactJS, Apollo, Typescript
 
@@ -13,9 +13,9 @@ Client for the Uber Clone. ReactJS, Apollo, Typescript
 
 ### Logged In:
 
-- [ ] Home
-- [ ] Ride
-- [ ] Chat
+- [x] Home
+- [x] Ride
+- [x] Chat
 - [x] Edit Account
 - [X] Settings
 - [X] Places
