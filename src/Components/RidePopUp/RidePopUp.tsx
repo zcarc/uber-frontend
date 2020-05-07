@@ -43,6 +43,8 @@ const Data = styled.span`
 const Img = styled.img`
   border-radius: 50%;
   margin-right: 20px;
+  width: 30px;
+  height: 30px;
 `;
 
 const Passenger = styled.div`

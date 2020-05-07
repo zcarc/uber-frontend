@@ -1,7 +1,10 @@
 import React from "react";
 import RidePresenter from "./RidePresenter";
+import { RouteComponentProps } from "react-router-dom";
 
-class RideContainer extends React.Component {
+interface IProps extends RouteComponentProps<any> {}
+
+class RideContainer extends React.Component<IProps> {
   public render() {
     return <RidePresenter />;
   }
