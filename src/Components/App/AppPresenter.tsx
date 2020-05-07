@@ -13,6 +13,7 @@ import Ride from "../../Routes/Ride";
 import Settings from "../../Routes/Settings";
 import SocialLogin from "../../Routes/SocialLogin";
 import VerifyPhone from "../../Routes/VerifyPhone";
+import Chat from "src/Routes/Chat";
 
 interface IProps {
   isLoggedIn: boolean;
