@@ -391,7 +391,7 @@ class HomeContainer extends React.Component<IProps, IState> {
     if (distance) {
       this.setState({
         price: parseFloat(
-          Number(parseFloat(distance.replace(",", "")) * 3).toFixed(2)
+          (parseFloat(distance.replace(",", "")) * 3 * 1000).toFixed(2)
         ),
       });
     }

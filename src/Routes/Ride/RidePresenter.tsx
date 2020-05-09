@@ -58,32 +58,34 @@ const RidePresenter: React.SFC<IProps> = ({
   <Container>
     {ride && user && (
       <React.Fragment>
-        <Title>Passenger</Title>
+        <Title>탑승객</Title>
         <Passenger>
           <Img src={ride.passenger.profilePhoto!} />
           <Data>{ride.passenger.fullName!}</Data>
         </Passenger>
         {ride.driver && (
           <React.Fragment>
-            <Title>Driver</Title>
+            <Title>운전자</Title>
             <Passenger>
               <Img src={ride.driver.profilePhoto!} />
               <Data>{ride.driver.fullName!}</Data>
             </Passenger>
           </React.Fragment>
         )}
-        <Title>From</Title>
+        <Title>타는 곳</Title>
         <Data>{ride.pickUpAddress}</Data>
-        <Title>To</Title>
+        <Title>내리는 곳</Title>
         <Data>{ride.dropOffAddress}</Data>
-        <Title>Price</Title>
-        <Data>{ride.price}</Data>
-        <Title>Distance</Title>
+        <Title>가격</Title>
+        <Data>{ride.price}원</Data>
+        <Title>주행 거리</Title>
         <Data>{ride.distance}</Data>
-        <Title>Duration</Title>
-        <Data>{ride.duration}</Data>
-        <Title>Status</Title>
-        <Data>{ride.status}</Data>
+        {/* <Title>소요 시간</Title>
+        <Data>{ride.duration.replace(" mins", "분")}</Data> */}
+        <Title>상태</Title>
+        <Data>
+          {ride.status === "REQUESTING" ? "승인 대기중..." : ride.status}
+        </Data>
         <Buttons>
           {ride.driver &&
             ride.driver.id === user.id &&

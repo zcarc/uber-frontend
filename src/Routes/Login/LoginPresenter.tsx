@@ -1,7 +1,7 @@
 import React from "react";
 import { RouteComponentProps, Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
-import bgImage from "../../images/bg.png";
+import HomeImage from "../../images/photo-1532115322357-7f39d4cb6e53.jpg";
 import styled from "../../typed-components";
 
 const Container = styled.div`
@@ -10,27 +10,32 @@ const Container = styled.div`
 
 const Header = styled.header`
   height: 70%;
-  background: linear-gradient(rgba(0, 153, 196, 0.5), rgba(0, 153, 196, 0.4)),
-    url(${bgImage});
+  background: url(${HomeImage});
   display: flex;
   align-items: center;
   justify-content: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 `;
 
 const Logo = styled.div`
-  width: 110px;
-  height: 110px;
-  background-color: white;
+  width: 130px;
+  height: 130px;
+  background-color: darkcyan;
   display: flex;
   justify-content: center;
   align-items: center;
-  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 -14px 28px rgba(0, 0, 0, 0.22);
+  box-shadow: 0 14px 18px rgba(0, 0, 0, 0.2), 0 -14px 18px rgba(0, 0, 0, 0.2);
   text-transform: uppercase;
   font-weight: 500;
   font-size: 25px;
 `;
 
-const Title = styled.h1``;
+const Title = styled.h1`
+  color: white;
+  font-weight: bold;
+  font-size: 35px;
+`;
 
 const Footer = styled.div``;
 
@@ -39,13 +44,14 @@ const Subtitle = styled.h2`
 `;
 
 const FakeInput = styled.div`
-  margin: 50px 0px;
+  margin: 50px 0px 20px;
   font-size: 25px;
   font-weight: 300;
 `;
 
 const PhoneLogin = styled.div`
-  padding: 20px;
+  padding: 25px;
+  margin-top: 25px;
   cursor: pointer;
 `;
 
@@ -80,9 +86,9 @@ const OutHomePresenter: React.SFC<IProps> = () => (
     <Footer>
       <Link to={"/phone-login"}>
         <PhoneLogin>
-          <Subtitle>Get moving with Nuber</Subtitle>
+          <Subtitle>지금 Uber와 함께 하세요.</Subtitle>
           <FakeInput>
-            🇰🇷 +82 <Grey>Enter your mobile number</Grey>
+            🇰🇷 +82 <Grey>핸드폰으로 회원가입</Grey>
           </FakeInput>
         </PhoneLogin>
       </Link>

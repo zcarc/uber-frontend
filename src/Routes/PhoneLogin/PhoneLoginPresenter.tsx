@@ -4,20 +4,46 @@ import BackArrow from "../../Components/BackArrow";
 import Input from "../../Components/Input";
 import countries from "../../countries";
 import styled from "../../typed-components";
+import suzanne from "../../images/suzanne-emily-o-connor-D45pSloWVdI-unsplash.jpg";
 
 const Container = styled.div`
-  margin-top: 30px;
+  height: 100vh;
+  background: url(${suzanne});
+  background-position-y: -300px;
+  background-size: cover;
   padding: 50px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Inner = styled.div`
+  background: white;
+  width: 30%;
+  height: 35%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  & .form-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
 `;
 
 const BackArrowExtended = styled(BackArrow)`
   position: absolute;
   top: 20px;
   left: 20px;
+  fill: white;
 `;
 
 const Title = styled.h2`
   font-size: 25px;
+  margin-top: 20px;
   margin-bottom: 40px;
 `;
 
@@ -31,26 +57,33 @@ const CountrySelect = styled.select`
   border: 0;
   font-family: "Maven Pro";
   margin-bottom: 20px;
-  width: 90%;
 `;
 
 const CountryOption = styled.option``;
 
-const Form = styled.form``;
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+`;
 
 const Button = styled.button`
-  box-shadow: 0 18px 35px rgba(50, 50, 93, 0.1), 0 8px 15px rgba(0, 0, 0, 0.07);
-  background-color: black;
-  color: white;
-  padding: 20px;
-  border-radius: 50%;
+  height: 50px;
+  background-color: #4285f4;
+  border-style: none;
+  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  bottom: 50px;
-  right: 50px;
+  font-size: 14px;
+  color: white;
   cursor: pointer;
+`;
+
+const ExtendedInput = styled(Input)`
+  margin-top: 3px;
+  margin-bottom: 2px;
+  padding: 7px;
 `;
 
 interface IProps {
@@ -70,55 +103,39 @@ const PhoneLoginPresenter: React.SFC<IProps> = ({
   onSubmit,
   loading,
 }) => (
-  <Container>
+  <>
     <Helmet>
       <title>Phone Login | Number</title>
     </Helmet>
-    <BackArrowExtended backTo={"/"} />
-    <Title>Enter your mobile number</Title>
-    <CountrySelect
-      value={countryCode}
-      name={"countryCode"}
-      onChange={onInputChange}
-    >
-      {countries.map((country, index) => (
-        <CountryOption key={index} value={country.dial_code}>
-          {country.flag} {country.name} ({country.dial_code})
-        </CountryOption>
-      ))}
-    </CountrySelect>
-    <Form onSubmit={onSubmit}>
-      <Input
-        placeholder={"053 690 2129"}
-        value={phoneNumber}
-        name={"phoneNumber"}
-        onChange={onInputChange}
-      />
-      <Button>
-        {loading ? (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill={"white"}
+      <BackArrowExtended backTo={"/"} />
+    <Container>
+      <Inner>
+        <Title>핸드폰 번호를 입력하세요.</Title>
+        <div className={"form-wrap"}>
+          <CountrySelect
+            value={countryCode}
+            name={"countryCode"}
+            onChange={onInputChange}
           >
-            <path d="M13.75 22c0 .966-.783 1.75-1.75 1.75s-1.75-.784-1.75-1.75.783-1.75 1.75-1.75 1.75.784 1.75 1.75zm-1.75-22c-1.104 0-2 .896-2 2s.896 2 2 2 2-.896 2-2-.896-2-2-2zm10 10.75c.689 0 1.249.561 1.249 1.25 0 .69-.56 1.25-1.249 1.25-.69 0-1.249-.559-1.249-1.25 0-.689.559-1.25 1.249-1.25zm-22 1.25c0 1.105.896 2 2 2s2-.895 2-2c0-1.104-.896-2-2-2s-2 .896-2 2zm19-8c.551 0 1 .449 1 1 0 .553-.449 1.002-1 1-.551 0-1-.447-1-.998 0-.553.449-1.002 1-1.002zm0 13.5c.828 0 1.5.672 1.5 1.5s-.672 1.501-1.502 1.5c-.826 0-1.498-.671-1.498-1.499 0-.829.672-1.501 1.5-1.501zm-14-14.5c1.104 0 2 .896 2 2s-.896 2-2.001 2c-1.103 0-1.999-.895-1.999-2s.896-2 2-2zm0 14c1.104 0 2 .896 2 2s-.896 2-2.001 2c-1.103 0-1.999-.895-1.999-2s.896-2 2-2z" />
-          </svg>
-        ) : (
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill={"white"}
-          >
-            <path d="M7.33 24l-2.83-2.829 9.339-9.175-9.339-9.167 2.83-2.829 12.17 11.996z" />
-          </svg>
-        )}
-      </Button>
-    </Form>
-  </Container>
+            {countries.map((country, index) => (
+              <CountryOption key={index} value={country.dial_code}>
+                {country.flag} {country.name} ({country.dial_code})
+              </CountryOption>
+            ))}
+          </CountrySelect>
+          <Form onSubmit={onSubmit}>
+            <ExtendedInput
+              placeholder={" - 없이 입력하세요."}
+              value={phoneNumber}
+              name={"phoneNumber"}
+              onChange={onInputChange}
+            />
+            <Button>인증번호 발송</Button>
+          </Form>
+        </div>
+      </Inner>
+    </Container>
+  </>
 );
 
 export default PhoneLoginPresenter;

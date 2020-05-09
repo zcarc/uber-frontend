@@ -22,7 +22,7 @@ const Container = styled.div`
   left: 0;
   right: 0;
   width: 80%;
-  height: 60%;
+  height: 50%;
   z-index: 9;
   padding: 20px;
 `;
@@ -43,14 +43,19 @@ const Data = styled.span`
 const Img = styled.img`
   border-radius: 50%;
   margin-right: 20px;
-  width: 30px;
-  height: 30px;
+  width: 41px;
+  height: 41px;
 `;
 
 const Passenger = styled.div`
   display: flex;
   align-items: center;
   margin-bottom: 20px;
+`;
+
+const ExtendedButton = styled(Button)`
+  border-radius: 10px;
+  background-color: dodgerblue;
 `;
 
 const RidePopUp: React.SFC<IProps> = ({
@@ -64,24 +69,22 @@ const RidePopUp: React.SFC<IProps> = ({
   id,
 }) => (
   <Container>
-    <Title>Pick Up Address</Title>
+    <Title>타는 곳</Title>
     <Data>{pickUpAddress}</Data>
-    <Title>Drop Off Address</Title>
+    <Title>내리는 곳</Title>
     <Data>{dropOffAddress}</Data>
-    <Title>Price</Title>
-    <Data>{price}</Data>
-    <Title>Distance</Title>
+    <Title>가격</Title>
+    <Data>{price}원</Data>
+    <Title>주행 거리</Title>
     <Data>{distance}</Data>
-    <Title>Distance</Title>
-    <Data>{distance}</Data>
-    <Title>Passenger:</Title>
+    <Title>탑승객:</Title>
     <Passenger>
       <Img src={passengerPhoto} />
       <Data>{passengerName}</Data>
     </Passenger>
-    <Button
+    <ExtendedButton
       onClick={() => acceptRideFn({ variables: { rideId: id } })}
-      value={"Accept Ride"}
+      value={"탑승요청 승인"}
     />
   </Container>
 );

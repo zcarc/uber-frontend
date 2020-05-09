@@ -41,11 +41,15 @@ const ExtendedButton = styled(Button)`
   margin: auto;
   z-index: 10;
   height: auto;
-  width: 80%;
+  width: 45%;
+  border-radius: 10px;
 `;
 
 const RequestButton = styled(ExtendedButton)`
-  bottom: 250px;
+  width: 45%;
+  bottom: 115px;
+  background-color: dodgerblue;
+  border-radius: 10px;
 `;
 
 interface IProps {
@@ -106,7 +110,7 @@ const HomePresenter: React.SFC<IProps> = ({
           <ExtendedButton
             onClick={onAddressSubmit}
             disabled={toAddress === ""}
-            value={price ? "Change Address" : "Pick Address"}
+            value={price ? "도착 장소 변경하기" : "도착 장소 선택하기"}
           />
         </>
       )}
@@ -115,7 +119,7 @@ const HomePresenter: React.SFC<IProps> = ({
         <RequestButton
           onClick={requestRideFn}
           disabled={toAddress === ""}
-          value={`Request Ride ($${price})`}
+          value={`비용: ${price}원 Uber 요청하기`}
         />
       )}
       {ride && (
