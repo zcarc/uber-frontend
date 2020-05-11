@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "build/dist",
-    "module": "esnext",
+    "module": "commonjs",
     "target": "es5",
     "lib": [
       "es6",
@@ -27,7 +27,8 @@
     "strict": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true
+    "noEmit": true,
+    "types": ["google"]
   },
   "exclude": [
     "node_modules",

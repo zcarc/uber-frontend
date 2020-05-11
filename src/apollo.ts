@@ -9,7 +9,7 @@ import { getMainDefinition } from "apollo-utilities";
 import { toast } from "react-toastify";
 
 const isDev = process.env.NODE_ENV === "development";
-console.log(isDev);
+// console.log(isDev);
 
 const getToken = () => {
   const token = localStorage.getItem("jwt");
@@ -33,9 +33,11 @@ const authMiddleware = new ApolloLink((operation: Operation, forward: any) => {
 
 const httpLink = new HttpLink({
   uri: isDev
-    ? "http://localhost:4000/graphql"
+    ? "https://uber-server-hs.herokuapp.com/graphql"
     : "https://uber-server-hs.herokuapp.com/graphql",
 });
+
+// ws://localhost:4000/subscription
 
 const wsLink = new WebSocketLink({
   options: {
@@ -45,8 +47,8 @@ const wsLink = new WebSocketLink({
     reconnect: true,
   },
   uri: isDev
-    ? "ws://localhost:4000/subscription"
-    : "https://uber-server-hs.herokuapp.com/subscription",
+    ? "wss://uber-server-hs.herokuapp.com/subscription"
+    : "wss://uber-server-hs.herokuapp.com/subscription",
 });
 
 const combinedLinks = split(

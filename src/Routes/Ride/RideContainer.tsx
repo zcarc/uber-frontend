@@ -43,7 +43,6 @@ class RideContainer extends React.Component<IProps> {
                   if (!subscriptionData.data) {
                     return prev;
                   }
-
                   const {
                     data: {
                       RideStatusSubscription: { status },
@@ -53,7 +52,6 @@ class RideContainer extends React.Component<IProps> {
                   if (status === "FINISHED") {
                     window.location.href = "/";
                   }
-                  
                 },
               };
               subscribeToMore(subscribeOptions);

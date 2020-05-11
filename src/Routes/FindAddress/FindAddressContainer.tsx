@@ -16,7 +16,7 @@ interface IProps extends RouteComponentProps<any> {
 
 class FindAddressContainer extends React.Component<IProps, IState> {
   public mapRef: any;
-  public map: google.maps.Map | any;
+  public map: any;
   public state = {
     address: "",
     lat: 0,
@@ -70,7 +70,7 @@ class FindAddressContainer extends React.Component<IProps, IState> {
     const { google } = this.props;
     const maps = google.maps;
     const mapNode = ReactDOM.findDOMNode(this.mapRef.current);
-    const mapConfig: google.maps.MapOptions = {
+    const mapConfig = {
       center: {
         lat,
         lng,

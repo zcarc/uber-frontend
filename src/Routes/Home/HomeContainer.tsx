@@ -1,3 +1,4 @@
+declare const google: any;
 import React from 'react';
 import ReactDOM from "react-dom";
 import { RouteComponentProps } from "react-router";
