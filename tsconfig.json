@@ -27,8 +27,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
-    "types": ["google"]
+    "noEmit": true
   },
   "exclude": [
     "node_modules",
